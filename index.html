@@ -28,13 +28,26 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        function QuirkiLanding() {
-            // State for light/dark mode theme switching
-            const [isDarkMode, setIsDarkMode] = React.useState(true);
-            // State to keep track of selected account roles
-            const [selectedRoles, setSelectedRoles] = React.useState([]);
+        function QuirkiApp() {
+            // Check system preferences for dark mode automatically on load
+            const getInitialTheme = () => {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                    document.documentElement.classList.remove('dark');
+                    return false; // start as light mode
+                }
+                document.documentElement.classList.add('dark');
+                return true; // start as dark mode
+            };
 
-            // Toggle HTML class between light and dark natively so Tailwind responds instantly
+            const [isDarkMode, setIsDarkMode] = React.useState(getInitialTheme);
+            const [selectedRoles, setSelectedRoles] = React.useState([]);
+            const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+            
+            // Login Form States
+            const [username, setUsername] = React.useState("");
+            const [password, setPassword] = React.useState("");
+            const [loginError, setLoginError] = React.useState("");
+
             const toggleTheme = () => {
                 const rootElement = document.documentElement;
                 if (isDarkMode) {
@@ -46,12 +59,22 @@
                 }
             };
 
-            // Toggle role selection array
             const handleSelectRole = (role) => {
                 if (selectedRoles.includes(role)) {
                     setSelectedRoles(selectedRoles.filter(r => r !== role));
                 } else {
                     setSelectedRoles([...selectedRoles, role]);
+                }
+            };
+
+            // Shadow Login Verification Check
+            const handleShadowLogin = (e) => {
+                e.preventDefault();
+                if (username.toLowerCase() === "zee" && password === "quirktoons") {
+                    setIsLoggedIn(true);
+                    setLoginError("");
+                } else {
+                    setLoginError("Invalid username or password. Hint: zee / quirktoons");
                 }
             };
 
@@ -62,20 +85,115 @@
                 { id: "editor", emoji: "✏️", title: "Test your editing skills", desc: "Offer editorial feedback and earn credibility on the platform" }
             ];
 
+            // RENDER THE MAIN ACCESSIBLE DASHBOARD (HOME PAGE) ONCE LOGGED IN
+            if (isLoggedIn) {
+                return (
+                    <div className="min-h-screen p-6 max-w-4xl mx-auto flex flex-col justify-between relative selection:bg-purple-500/30">
+                        {/* Dynamic Minimal Theme Switch Icon (Top Right) */}
+                        <button onClick={toggleTheme} className="absolute top-6 right-6 p-2 rounded-full border dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 bg-white border-slate-200 text-emerald-600 hover:opacity-80 transition-all">
+                            {isDarkMode ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.58 1.58m12.42 12.42l1.58 1.58M3 12h2.25m13.5 0H21M4.22 19.78l1.58-1.58M17.78 4.22l-1.58 1.58M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" /></svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                            )}
+                        </button>
+
+                        {/* Top App Bar Header */}
+                        <header className="pt-4 flex justify-between items-center border-b dark:border-slate-800/60 border-slate-200 pb-6">
+                            <div>
+                                <h1 className="text-3xl font-serif-normal font-bold tracking-wider dark:text-purple-400 text-purple-700">QUIRKI</h1>
+                                <p className="text-xs tracking-wide dark:text-slate-400 text-slate-500">For everyone the industry forgot.</p>
+                            </div>
+                            <div className="flex items-center space-x-3 text-right">
+                                <div>
+                                    <p className="text-sm font-semibold dark:text-slate-200 text-slate-800">Zee (Founder)</p>
+                                    <p className="text-xs text-purple-500 font-mono">🏆 1,240 Cred Points</p>
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-orange-400 shadow-sm"></div>
+                            </div>
+                        </header>
+
+                        {/* Main Grid Content Matrix Dashboard */}
+                        <main className="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto py-8">
+                            
+                            {/* Left Column: The Four Strategic Interactive Doors */}
+                            <div className="md:col-span-5 space-y-4">
+                                <p className="text-[11px] font-mono tracking-widest dark:text-slate-500 text-slate-400 uppercase">Onboarding / Select a Door</p>
+                                
+                                <div className="p-4 rounded-xl border dark:bg-amber-950/10 dark:border-amber-900/40 bg-amber-50 border-amber-200/60 flex items-center space-x-4 hover:scale-[1.01] transition-transform cursor-pointer">
+                                    <div className="text-xl p-2.5 rounded-lg dark:bg-amber-950/40 bg-amber-100 text-amber-500">⚖️</div>
+                                    <div>
+                                        <h3 className="text-sm font-bold dark:text-slate-100 text-slate-900">Rules & Guidelines</h3>
+                                        <p className="text-xs dark:text-slate-400 text-slate-500">Culture first. Learn tagging expectations & ethos.</p>
+                                    </div>
+                                </div>
+
+                                <div className="p-4 rounded-xl border dark:bg-purple-950/10 dark:border-purple-900/40 bg-purple-50 border-purple-200/60 flex items-center space-x-4 hover:scale-[1.01] transition-transform cursor-pointer">
+                                    <div className="text-xl p-2.5 rounded-lg dark:bg-purple-950/40 bg-purple-100 text-purple-500">📖</div>
+                                    <div>
+                                        <h3 className="text-sm font-bold dark:text-slate-100 text-slate-900">Reading Experience</h3>
+                                        <p className="text-xs dark:text-slate-400 text-slate-500">Genre exploration box & deep stackable tag search.</p>
+                                    </div>
+                                </div>
+
+                                <div className="p-4 rounded-xl border dark:bg-emerald-950/10 dark:border-emerald-900/40 bg-emerald-50 border-emerald-200/60 flex items-center space-x-4 hover:scale-[1.01] transition-transform cursor-pointer">
+                                    <div className="text-xl p-2.5 rounded-lg dark:bg-emerald-950/40 bg-emerald-100 text-emerald-500">✍️</div>
+                                    <div>
+                                        <h3 className="text-sm font-bold dark:text-slate-100 text-slate-900">Writing & Publishing</h3>
+                                        <p className="text-xs dark:text-slate-400 text-slate-500">Manage chapters, volumes, and track honest analytics.</p>
+                                    </div>
+                                </div>
+
+                                <div className="p-4 rounded-xl border dark:bg-blue-950/10 dark:border-blue-900/40 bg-blue-50 border-blue-200/60 flex items-center space-x-4 hover:scale-[1.01] transition-transform cursor-pointer">
+                                    <div className="text-xl p-2.5 rounded-lg dark:bg-blue-950/40 bg-blue-100 text-blue-500">💬</div>
+                                    <div>
+                                        <h3 className="text-sm font-bold dark:text-slate-100 text-slate-900">Discussion Room</h3>
+                                        <p className="text-xs dark:text-slate-400 text-slate-500">Community board, micro tropes, outlines, & ideas.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Column: Dynamic Welcome Display Node Panel */}
+                            <div className="md:col-span-7 dark:bg-[#161719] bg-white border dark:border-slate-800/80 border-slate-200 rounded-2xl p-8 flex flex-col justify-between shadow-sm">
+                                <div className="text-center my-auto space-y-4 max-w-sm mx-auto">
+                                    <div className="text-2xl text-purple-400 animate-pulse">✨</div>
+                                    <h2 className="text-xl font-medium dark:text-slate-100 text-slate-900">Welcome to Quirki</h2>
+                                    <p className="text-sm dark:text-slate-400 text-slate-500 leading-relaxed">
+                                        No forced tutorials here. The platform trusts you to explore. Click any door on the left side to step inside and shape your space.
+                                    </p>
+                                </div>
+
+                                <div className="border-t dark:border-slate-800/80 border-slate-100 pt-4 mt-6">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-500 flex items-center mb-1">👑 Owner's Favourites</h4>
+                                    <p className="text-xs italic dark:text-slate-400 text-slate-500">
+                                        "Curating taste and community identity directly over numbers and cold code algorithms."
+                                    </p>
+                                </div>
+                            </div>
+
+                        </main>
+
+                        <footer className="text-center pt-6 border-t dark:border-slate-800/40 border-slate-100 text-[10px] font-mono tracking-widest dark:text-slate-600 text-slate-400">
+                            QUIRKI ENGINE NETWORK DASHBOARD PROTOTYPE v1.2 // SECURE CONNECTION ACCESS
+                        </footer>
+                    </div>
+                );
+            }
+
+            // RENDER THE LANDING PAGE ON DEFAULT DISCONNECTED INITIATION
             return (
-                <div className="min-h-screen flex flex-col justify-between p-6 max-w-md mx-auto relative">
+                <div className="min-h-screen flex flex-col justify-between p-6 max-w-md mx-auto relative selection:bg-emerald-500/30">
                     
-                    {/* Floating Theme Switcher Controller */}
-                    <button 
-                        onClick={toggleTheme}
-                        className="absolute top-6 right-6 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border shadow-sm transition-all duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 bg-white border-slate-200 text-emerald-600 hover:opacity-90"
-                    >
-                        {isDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+                    {/* Tiny Sun/Moon Icon Theme Switcher (Top Right Corner) */}
+                    <button onClick={toggleTheme} className="absolute top-6 right-6 p-2 rounded-full border dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 bg-white border-slate-200 text-emerald-600 hover:opacity-80 transition-all">
+                        {isDarkMode ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.58 1.58m12.42 12.42l1.58 1.58M3 12h2.25m13.5 0H21M4.22 19.78l1.58-1.58M17.78 4.22l-1.58 1.58M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" /></svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                        )}
                     </button>
 
-                    {/* Top Branding Section */}
                     <header className="pt-4 flex items-center space-x-2">
-                        {/* Custom flower/blob element inspired by your logo */}
                         <svg className="w-5 h-5 dark:text-emerald-400 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2a3 3 0 0 0-3 3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0-3-3V2z"/>
                         </svg>
@@ -84,14 +202,10 @@
                         </span>
                     </header>
 
-                    {/* Main Content Flow Blocks */}
                     <main className="my-auto space-y-16 py-12">
                         
-                        {/* Section 1: Hero Block */}
                         <div className="text-center space-y-4">
-                            <h2 className="text-xs font-semibold tracking-widest uppercase dark:text-emerald-400/80 text-emerald-600">
-                                Original Fiction Community
-                            </h2>
+                            <h2 className="text-xs font-semibold tracking-widest uppercase dark:text-emerald-400/80 text-emerald-600">Original Fiction Community</h2>
                             <h1 className="text-4xl md:text-5xl font-serif-normal tracking-tight leading-tight px-2 dark:text-slate-100 text-slate-900">
                                 The platform <br /> that was <span className="font-serif-italic dark:text-emerald-400 text-emerald-600">built for you.</span>
                             </h1>
@@ -100,36 +214,60 @@
                             </p>
                         </div>
 
-                        {/* Section 2: Manifesto Details */}
+                        {/* Shadow Login Component UI Block */}
+                        <div className="dark:bg-[#1a1b1d] bg-white border dark:border-slate-800/80 border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+                            <div className="space-y-0.5">
+                                <h3 className="text-sm font-bold dark:text-slate-200 text-slate-800">Sign In Protocol</h3>
+                                <p className="text-xs dark:text-slate-400 text-slate-500">Test the core system interface natively.</p>
+                            </div>
+                            
+                            <form onSubmit={handleShadowLogin} className="space-y-3">
+                                <div>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Username (zee)" 
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        className="w-full px-4 py-2.5 text-sm rounded-xl border dark:bg-[#121314] dark:border-slate-800 bg-slate-50 border-slate-200 text-inherit focus:outline-none focus:border-emerald-400"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Password (quirktoons)" 
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full px-4 py-2.5 text-sm rounded-xl border dark:bg-[#121314] dark:border-slate-800 bg-slate-50 border-slate-200 text-inherit focus:outline-none focus:border-emerald-400"
+                                        required
+                                    />
+                                </div>
+
+                                {loginError && (
+                                    <p className="text-[11px] text-red-500 font-medium pl-1">{loginError}</p>
+                                )}
+
+                                <button type="submit" className="w-full py-3 rounded-xl font-medium text-sm transition-all shadow-md dark:bg-emerald-400 dark:text-slate-950 bg-emerald-600 text-white hover:opacity-90">
+                                    Access Platform Dashboard
+                                </button>
+                            </form>
+                        </div>
+
                         <div className="space-y-6">
                             <div className="space-y-1">
-                                <h3 className="text-[11px] font-bold tracking-widest uppercase dark:text-emerald-400/80 text-emerald-600">
-                                    The Community
-                                </h3>
+                                <h3 className="text-[11px] font-bold tracking-widest uppercase dark:text-emerald-400/80 text-emerald-600">The Community</h3>
                                 <h2 className="text-3xl font-serif-normal dark:text-slate-100 text-slate-900">
                                     Who Quirki Is <span className="font-serif-italic dark:text-emerald-400 text-emerald-600">For</span>
                                 </h2>
                             </div>
                             
                             <div className="space-y-4 text-sm leading-relaxed dark:text-slate-300 text-slate-600">
-                                <p>
-                                    Quirki is for the quirky teens, young adults, new adults, and adults who never quite fit the mould that publishing decided was worth building for.
-                                </p>
-                                <p>
-                                    It is for indie authors who have no ground to start with — no platform, no connections, no industry contacts. Just a story and the nerve to post it.
-                                </p>
-                                <p>
-                                    It is for people who want to understand the writing community, not just consume it — readers who leave real comments, beta readers who show up, editors who care.
-                                </p>
+                                <p>Quirki is for the quirky teens, young adults, new adults, and adults who never quite fit the mould that publishing decided was worth building for.</p>
+                                <p>It is for indie authors who have no ground to start with — no platform, no connections, no industry contacts. Just a story and the nerve to post it.</p>
                             </div>
 
-                            {/* Core Pillars List */}
                             <ul className="space-y-3 pt-2">
-                                {[
-                                    "No algorithms deciding what you see",
-                                    "No paywalls between you and a good story",
-                                    "No engagement metrics, just genuine community"
-                                ].map((pillar, i) => (
+                                {["No algorithms deciding what you see", "No paywalls between you and a good story", "No engagement metrics, just genuine community"].map((pillar, i) => (
                                     <li key={i} className="flex items-start space-x-3 text-sm">
                                         <span className="text-lg leading-none dark:text-emerald-400 text-emerald-600">—</span>
                                         <span className="dark:text-slate-300 text-slate-700">{pillar}</span>
@@ -138,7 +276,6 @@
                             </ul>
                         </div>
 
-                        {/* Section 3: Interactive Registration / Role Selection */}
                         <div className="space-y-6">
                             <div className="space-y-1">
                                 <h2 className="text-3xl font-serif-normal dark:text-slate-100 text-slate-900">
@@ -146,7 +283,6 @@
                                 </h2>
                             </div>
 
-                            {/* Role Cards Container */}
                             <div className="space-y-3">
                                 {rolesData.map((role) => {
                                     const isSelected = selectedRoles.includes(role.id);
@@ -164,27 +300,17 @@
                                                 {role.emoji}
                                             </div>
                                             <div className="space-y-0.5">
-                                                <h4 className="text-sm font-semibold dark:text-slate-200 text-slate-800">
-                                                    {role.title}
-                                                </h4>
-                                                <p className="text-xs leading-relaxed dark:text-slate-400 text-slate-500">
-                                                    {role.desc}
-                                                </p>
+                                                <h4 className="text-sm font-semibold dark:text-slate-200 text-slate-800">{role.title}</h4>
+                                                <p className="text-xs leading-relaxed dark:text-slate-400 text-slate-500">{role.desc}</p>
                                             </div>
                                         </div>
                                     );
                                 })}
                             </div>
-
-                            {/* Main CTA Submission Button */}
-                            <button className="w-full py-4 rounded-xl font-medium text-sm transition-all duration-200 shadow-md dark:bg-emerald-400 dark:text-slate-950 bg-emerald-600 text-white hover:opacity-90">
-                                Create Account
-                            </button>
                         </div>
 
                     </main>
 
-                    {/* Small branding anchor layout footer */}
                     <footer className="text-center py-4 text-[11px] font-mono tracking-wider dark:text-slate-600 text-slate-400">
                         quirki original fiction platform engine v1.0
                     </footer>
@@ -193,7 +319,7 @@
         }
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<QuirkiLanding />);
+        root.render(<QuirkiApp />);
     </script>
 </body>
 </html>
