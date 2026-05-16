@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quirki | Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-purple-500/30 selection:text-purple-200">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function QuirkiHomepage() {
+            // State to handle which door/tab is selected (0 = Rules, 1 = Reading, 2 = Writing, 3 = Discussion)
+            const [activeDoor, setActiveDoor] = React.useState(null);
+
+            const sections = [
+                {
+                    id: "rules",
+                    title: "Rules & Guidelines",
+                    tagline: "Culture first. Learn our tagging expectations & community ethos.",
+                    icon: "⚖️",
+                    color: "from-amber-500/20 to-orange-500/10 border-amber-500/30 hover:border-amber-500/60",
+                    content: (
+                        <div className="space-y-4">
+                            <h3 className="text-xl font-bold text-amber-400">The Quirki Culture</h3>
+                            <ul className="space-y-2 list-disc pl-5 text-slate-300 text-sm">
+                                <li><strong className="text-slate-100">No Algorithms:</strong> Discoverability is earned through tags, not promotion money.</li>
+                                <li><strong className="text-slate-100">Don't like, don't read:</strong> Literally. If it's not your cup of tea, don't drink.</li>
+                                <li><strong className="text-slate-100">Strict Tagging:</strong> Dark content is allowed but must be tagged accurately. Non-negotiable.</li>
+                                <li><strong className="text-slate-100">No unsolicited critique:</strong> Unless explicitly asked for by the author.</li>
+                            </ul>
+                        </div>
+                    )
+                },
+                {
+                    id: "reading",
+                    title: "Reading Experience",
+                    tagline: "Genre exploration box & deep stackable tag search.",
+                    icon: "📖",
+                    color: "from-purple-500/20 to-indigo-500/10 border-purple-500/30 hover:border-purple-500/60",
+                    content: (
+                        <div className="space-y-4">
+                            <h3 className="text-xl font-bold text-purple-400">Explore Original Fiction</h3>
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                {["Sci-Fi", "Fantasy", "New Adult", "Slice of Life", "Cyberpunk", "Grimdark"].map((g) => (
+                                    <span key={g} className="px-3 py-1 bg-purple-950 border border-purple-800/50 rounded-full text-xs font-semibold text-purple-300 cursor-pointer hover:bg-purple-900 transition">
+                                        {g}
+                                    </span>
+                                ))}
+                            </div>
+                            <div className="p-3 bg-slate-900/80 rounded-lg border border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                                <span>Display Mode: Default (Penana), Minimal (AO3), or Social (Wattpad)</span>
+                                <span className="text-purple-400 font-bold">Reader Controlled</span>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: "writing",
+                    title: "Writing & Publishing",
+                    tagline: "Manage your chapters, arcs, issues, and track honest analytics.",
+                    icon: "✍️",
+                    color: "from-emerald-500/20 to-teal-500/10 border-emerald-500/30 hover:border-emerald-500/60",
+                    content: (
+                        <div className="space-y-4">
+                            <h3 className="text-xl font-bold text-emerald-400">Author Studio</h3>
+                            <p className="text-sm text-slate-300">Organize your book your way into Chapters, Volumes, or Arcs. Access private analytics like <span className="text-emerald-300 underline font-mono">Binge Rate</span> and <span className="text-emerald-300 underline font-mono">Completion Rate</span>.</p>
+                            <button className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 font-semibold text-sm rounded-lg transition-all">
+                                Create New Story +
+                            </button>
+                        </div>
+                    )
+                },
+                {
+                    id: "discussion",
+                    title: "Discussion Room",
+                    tagline: "Community board, micro tropes, outlines, & ideas.",
+                    icon: "💬",
+                    color: "from-cyan-500/20 to-blue-500/10 border-cyan-500/30 hover:border-cyan-500/60",
+                    content: (
+                        <div className="space-y-4">
+                            <h3 className="text-xl font-bold text-cyan-400">The Forum</h3>
+                            <div className="space-y-2">
+                                <div className="text-xs p-2 bg-slate-900 rounded border border-slate-800 flex justify-between">
+                                    <span>💡 [Idea] Cyberpunk heist but the crew are all grandmas</span>
+                                    <span className="text-cyan-400 font-medium">+14 Points</span>
+                                </div>
+                                <div className="text-xs p-2 bg-slate-900 rounded border border-slate-800 flex justify-between">
+                                    <span>🙋 [Help] How do you outline multi-generational arcs?</span>
+                                    <span className="text-slate-500">24 replies</span>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            ];
+
+            return (
+                <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col min-h-screen justify-between">
+                    {/* Header */}
+                    <header className="flex justify-between items-center mb-16 border-b border-slate-900 pb-6">
+                        <div>
+                            <h1 className="text-3xl font-black tracking-wider bg-gradient-to-r from-purple-400 via-pink-400 to-amber-400 bg-clip-text text-transparent">QUIRKI</h1>
+                            <p className="text-xs text-slate-500 font-medium mt-1">For everyone the industry forgot.</p>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <div className="text-right">
+                                <p className="text-xs font-bold text-slate-300">Zee (Founder)</p>
+                                <p className="text-[10px] text-purple-400 font-mono">🏆 1,240 Cred Points</p>
+                            </div>
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-amber-500 flex items-center justify-between shadow-inner"></div>
+                        </div>
+                    </header>
+
+                    {/* Main Section */}
+                    <main className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        {/* Left Side: The Four Doors */}
+                        <div className="space-y-4">
+                            <h2 className="text-sm font-semibold tracking-widest text-slate-500 uppercase mb-2">Onboarding / Select a Door</h2>
+                            {sections.map((sec, index) => (
+                                <div 
+                                    key={sec.id}
+                                    onClick={() => setActiveDoor(index)}
+                                    className={`p-5 rounded-xl border bg-gradient-to-br cursor-pointer transition-all duration-300 transform hover:-translate-y-0.5 ${sec.color} ${
+                                        activeDoor === index ? 'ring-2 ring-offset-2 ring-offset-slate-950 ring-purple-500' : ''
+                                    }`}
+                                >
+                                    <div className="flex items-start space-x-4">
+                                        <div className="text-2xl p-2 bg-slate-950/60 rounded-lg border border-slate-800/40 shadow-inner">{sec.icon}</div>
+                                        <div>
+                                            <h3 className="font-bold text-base text-white">{sec.title}</h3>
+                                            <p className="text-xs text-slate-400 mt-1 leading-relaxed">{sec.tagline}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Right Side: Dynamic Panel (The Portal View) */}
+                        <div className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-8 min-h-[380px] flex flex-col justify-between backdrop-blur-sm relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                            {activeDoor !== null ? (
+                                <div className="animate-fadeIn">
+                                    {sections[activeDoor].content}
+                                }</div>
+                            ) : (
+                                <div className="h-full flex flex-col justify-center items-center text-center my-auto text-slate-500 space-y-3">
+                                    <div className="text-4xl animate-pulse">✨</div>
+                                    <div>
+                                        <p className="font-medium text-slate-400 text-sm">Welcome to Quirki</p>
+                                        <p className="text-xs max-w-xs mt-1 text-slate-500">No forced tutorials here. The platform trusts you to explore. Click any door to step inside.</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Owner's Favourites Blueprint Hook */}
+                            <div className="border-t border-slate-800/60 pt-4 mt-8">
+                                <h4 className="text-xs font-bold text-amber-500 tracking-wider uppercase mb-2 flex items-center gap-1">
+                                    <span>👑</span> Owner's Favourites
+                                </h4>
+                                <p className="text-[11px] text-slate-400 italic">"Curating taste and community identity directly over numbers and cold code algorithms."</p>
+                            </div>
+                        </div>
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="mt-16 pt-4 border-t border-slate-900 text-center text-[11px] text-slate-600 font-mono">
+                        Quirki Platform Engine v1.0 • Built on Community Trust • 13+ Content Safe Guard Enabled
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<QuirkiHomepage />);
+    </script>
+</body>
+</html>
