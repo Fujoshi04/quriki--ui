@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
         .font-serif-normal { font-family: 'Instrument Serif', serif; }
     </style>
 </head>
-<body class="bg-[#121314] text-slate-100 min-h-screen antialiased transition-colors duration-300 dark:bg-[#121314] dark:text-slate-100 light:bg-slate-50 light:text-slate-900">
+<body class="bg-[#121314] text-slate-100 min-h-screen antialiased transition-colors duration-300 dark:bg-[#121314] dark:text-slate-100 bg-slate-50 text-slate-900">
 
     <div id="root"></div>
 
@@ -34,14 +34,14 @@
             // State to keep track of selected account roles
             const [selectedRoles, setSelectedRoles] = React.useState([]);
 
-            // Toggle HTML class between light and dark
+            // Toggle HTML class between light and dark natively so Tailwind responds instantly
             const toggleTheme = () => {
                 const rootElement = document.documentElement;
                 if (isDarkMode) {
-                    rootElement.classList.add('light');
+                    rootElement.classList.remove('dark');
                     setIsDarkMode(false);
                 } else {
-                    rootElement.classList.remove('light');
+                    rootElement.classList.add('dark');
                     setIsDarkMode(true);
                 }
             };
@@ -68,22 +68,18 @@
                     {/* Floating Theme Switcher Controller */}
                     <button 
                         onClick={toggleTheme}
-                        className={`absolute top-6 right-6 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border shadow-sm transition-all duration-200 ${
-                            isDarkMode 
-                            ? 'bg-slate-900 border-slate-800 text-teal-400 hover:bg-slate-800' 
-                            : 'bg-white border-slate-200 text-teal-600 hover:bg-slate-100'
-                        }`}
+                        className="absolute top-6 right-6 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border shadow-sm transition-all duration-200 dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 bg-white border-slate-200 text-emerald-600 hover:opacity-90"
                     >
                         {isDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
                     </button>
 
                     {/* Top Branding Section */}
                     <header className="pt-4 flex items-center space-x-2">
-                        {/* Custom flower/blob element inspired by logo */}
-                        <svg className={`w-5 h-5 ${isDarkMode ? 'text-teal-400' : 'text-teal-600'}`} viewBox="0 0 24 24" fill="currentColor">
+                        {/* Custom flower/blob element inspired by your logo */}
+                        <svg className="w-5 h-5 dark:text-emerald-400 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2a3 3 0 0 0-3 3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0-3-3V2z"/>
                         </svg>
-                        <span className={`text-2xl tracking-wide font-serif-italic ${isDarkMode ? 'text-teal-400' : 'text-teal-600'}`}>
+                        <span className="text-2xl tracking-wide font-serif-italic dark:text-emerald-400 text-emerald-600">
                             quirki
                         </span>
                     </header>
@@ -93,13 +89,13 @@
                         
                         {/* Section 1: Hero Block */}
                         <div className="text-center space-y-4">
-                            <h2 className={`text-xs font-semibold tracking-widest uppercase ${isDarkMode ? 'text-teal-400/80' : 'text-teal-600'}`}>
+                            <h2 className="text-xs font-semibold tracking-widest uppercase dark:text-emerald-400/80 text-emerald-600">
                                 Original Fiction Community
                             </h2>
-                            <h1 className={`text-4xl md:text-5xl font-serif-normal tracking-tight leading-tight px-2 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}>
-                                The platform <br /> that was <span className={`font-serif-italic ${isDarkMode ? 'text-teal-400' : 'text-teal-600'}`}>built for you.</span>
+                            <h1 className="text-4xl md:text-5xl font-serif-normal tracking-tight leading-tight px-2 dark:text-slate-100 text-slate-900">
+                                The platform <br /> that was <span className="font-serif-italic dark:text-emerald-400 text-emerald-600">built for you.</span>
                             </h1>
-                            <p className={`text-sm max-w-xs mx-auto leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                            <p className="text-sm max-w-xs mx-auto leading-relaxed dark:text-slate-400 text-slate-500">
                                 A free community for indie authors and readers. Just stories.
                             </p>
                         </div>
@@ -107,15 +103,15 @@
                         {/* Section 2: Manifesto Details */}
                         <div className="space-y-6">
                             <div className="space-y-1">
-                                <h3 className={`text-[11px] font-bold tracking-widest uppercase ${isDarkMode ? 'text-teal-400/80' : 'text-teal-600'}`}>
+                                <h3 className="text-[11px] font-bold tracking-widest uppercase dark:text-emerald-400/80 text-emerald-600">
                                     The Community
                                 </h3>
-                                <h2 className={`text-3xl font-serif-normal ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}>
-                                    Who Quirki Is <span className={`font-serif-italic ${isDarkMode ? 'text-teal-400' : 'text-teal-600'}`}>For</span>
+                                <h2 className="text-3xl font-serif-normal dark:text-slate-100 text-slate-900">
+                                    Who Quirki Is <span className="font-serif-italic dark:text-emerald-400 text-emerald-600">For</span>
                                 </h2>
                             </div>
                             
-                            <div className={`space-y-4 text-sm leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                            <div className="space-y-4 text-sm leading-relaxed dark:text-slate-300 text-slate-600">
                                 <p>
                                     Quirki is for the quirky teens, young adults, new adults, and adults who never quite fit the mould that publishing decided was worth building for.
                                 </p>
@@ -135,8 +131,8 @@
                                     "No engagement metrics, just genuine community"
                                 ].map((pillar, i) => (
                                     <li key={i} className="flex items-start space-x-3 text-sm">
-                                        <span className={`text-lg leading-none ${isDarkMode ? 'text-teal-400' : 'text-teal-600'}`}>—</span>
-                                        <span className={isDarkMode ? 'text-slate-300' : 'text-slate-700'}>{pillar}</span>
+                                        <span className="text-lg leading-none dark:text-emerald-400 text-emerald-600">—</span>
+                                        <span className="dark:text-slate-300 text-slate-700">{pillar}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -145,8 +141,8 @@
                         {/* Section 3: Interactive Registration / Role Selection */}
                         <div className="space-y-6">
                             <div className="space-y-1">
-                                <h2 className={`text-3xl font-serif-normal ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}>
-                                    Create an Account <br />To <span className={`font-serif-italic ${isDarkMode ? 'text-teal-400' : 'text-teal-600'}`}>Belong</span>
+                                <h2 className="text-3xl font-serif-normal dark:text-slate-100 text-slate-900">
+                                    Create an Account <br />To <span className="font-serif-italic dark:text-emerald-400 text-emerald-600">Belong</span>
                                 </h2>
                             </div>
 
@@ -160,22 +156,18 @@
                                             onClick={() => handleSelectRole(role.id)}
                                             className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex items-start space-x-4 select-none ${
                                                 isSelected 
-                                                    ? 'border-teal-400 bg-teal-500/10 shadow-sm' 
-                                                    : isDarkMode 
-                                                        ? 'bg-[#1a1b1d] border-slate-800/80 hover:border-slate-700' 
-                                                        : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+                                                    ? 'border-emerald-400 bg-emerald-500/10 shadow-sm' 
+                                                    : 'dark:bg-[#1a1b1d] dark:border-slate-800/80 hover:border-slate-300 bg-white border-slate-200 shadow-sm'
                                             }`}
                                         >
-                                            <div className={`text-xl p-2.5 rounded-lg flex items-center justify-center ${
-                                                isDarkMode ? 'bg-[#222326]' : 'bg-slate-100'
-                                            }`}>
+                                            <div className="text-xl p-2.5 rounded-lg flex items-center justify-center dark:bg-[#222326] bg-slate-100">
                                                 {role.emoji}
                                             </div>
                                             <div className="space-y-0.5">
-                                                <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>
+                                                <h4 className="text-sm font-semibold dark:text-slate-200 text-slate-800">
                                                     {role.title}
                                                 </h4>
-                                                <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                                                <p className="text-xs leading-relaxed dark:text-slate-400 text-slate-500">
                                                     {role.desc}
                                                 </p>
                                             </div>
@@ -185,11 +177,7 @@
                             </div>
 
                             {/* Main CTA Submission Button */}
-                            <button className={`w-full py-4 rounded-xl font-medium text-sm transition-all duration-200 shadow-md ${
-                                isDarkMode 
-                                ? 'bg-teal-400 text-slate-950 hover:bg-teal-300 active:bg-teal-500' 
-                                : 'bg-teal-600 text-white hover:bg-teal-500 active:bg-teal-700'
-                            }`}>
+                            <button className="w-full py-4 rounded-xl font-medium text-sm transition-all duration-200 shadow-md dark:bg-emerald-400 dark:text-slate-950 bg-emerald-600 text-white hover:opacity-90">
                                 Create Account
                             </button>
                         </div>
@@ -197,7 +185,7 @@
                     </main>
 
                     {/* Small branding anchor layout footer */}
-                    <footer className={`text-center py-4 text-[11px] font-mono tracking-wider ${isDarkMode ? 'text-slate-600' : 'text-slate-400'}`}>
+                    <footer className="text-center py-4 text-[11px] font-mono tracking-wider dark:text-slate-600 text-slate-400">
                         quirki original fiction platform engine v1.0
                     </footer>
                 </div>
