@@ -21,16 +21,11 @@
         :root {
             --teal: #00e5c4;
             --teal-glow: rgba(0, 229, 196, 0.08);
-            --bg-dark: #1a1c1e;
-            --bg-nav-dark: #1c1e20;
-            --bg-light: #f8fafc;
-            --bg-nav-light: #ffffff;
         }
         body { font-family: 'DM Sans', sans-serif; font-weight: 300; }
         .font-serif-italic { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600; }
         .font-serif-normal { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
         
-        /* Match your custom styling injects */
         .custom-teal-glow { background-color: var(--teal-glow); border: 1.5px solid rgba(0,229,196,0.25); }
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(14px); }
@@ -45,7 +40,7 @@
 
     <script type="text/babel">
         function QuirkiApp() {
-            // Detect user system preferences for dark mode automatically on first launch
+            // Detect user system preferences for dark/light mode instantly on start
             const getInitialTheme = () => {
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
                     document.documentElement.classList.remove('dark');
@@ -59,7 +54,7 @@
             const [selectedRoles, setSelectedRoles] = React.useState([]);
             const [isLoggedIn, setIsLoggedIn] = React.useState(false);
             
-            // Login Forms Input state variables
+            // Authorization States
             const [username, setUsername] = React.useState("");
             const [password, setPassword] = React.useState("");
             const [loginError, setLoginError] = React.useState("");
@@ -105,7 +100,7 @@
             if (isLoggedIn) {
                 return (
                     <div className="min-h-screen flex flex-col justify-between transition-colors duration-300 dark:bg-[#1a1c1e] bg-slate-50">
-                        {/* Custom Navigation Bar */}
+                        {/* Navigation Bar */}
                         <nav className="sticky top-0 z-50 px-6 h-14 flex items-center justify-between border-b dark:bg-[#1c1e20] dark:border-white/5 bg-white border-slate-200">
                             <a href="#" className="flex items-center gap-2 font-serif-italic text-xl text-[#00e5c4] no-underline">
                                 <svg width="24" height="24" viewBox="0 0 26 26" fill="none">
@@ -118,7 +113,7 @@
                                 quirki
                             </a>
                             <div className="flex items-center gap-4">
-                                {/* Tiny Native Clean Theme Switcher inside navigation */}
+                                {/* Tiny Minimal Theme Switcher Icon */}
                                 <button onClick={toggleTheme} className="p-1.5 rounded-full dark:text-slate-400 dark:hover:text-[#00e5c4] text-slate-500 hover:text-[#00e5c4] transition-colors">
                                     {isDarkMode ? (
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.58 1.58m12.42 12.42l1.58 1.58M3 12h2.25m13.5 0H21M4.22 19.78l1.58-1.58M17.78 4.22l-1.58 1.58M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" /></svg>
@@ -137,7 +132,7 @@
                             </div>
                         </nav>
 
-                        {/* Central Content Column Layout */}
+                        {/* Central Dashboard View */}
                         <main className="max-w-[600px] w-full mx-auto px-6 py-10 flex-grow">
                             
                             {/* Rules Container Section */}
@@ -161,7 +156,7 @@
                                 ))}
                             </div>
 
-                            {/* Section Items Navigation Matrix */}
+                            {/* Dashboard Navigation Grid */}
                             <div className="flex flex-col">
                                 {[
                                     { name: "Reading", desc: "Browse stories by genre, search by tag, find your next read" },
@@ -184,11 +179,11 @@
                 );
             }
 
-            // ─── VIEW 2: PUBLIC LANDING PAGE (EVERYTHING WRITTEN FIRST, AUTH AT BOTTOM) ───
+            // ─── VIEW 2: PUBLIC LANDING PAGE (EVERYTHING WRITTEN FIRST, AUTH AT THE VERY BOTTOM) ───
             return (
                 <div className="min-h-screen flex flex-col justify-between p-6 max-w-md mx-auto relative transition-colors duration-300">
                     
-                    {/* Micro Minimal Sun/Moon Switcher Icon (Top Right Corner) */}
+                    {/* Micro Minimal Theme Switcher Icon */}
                     <button onClick={toggleTheme} className="absolute top-6 right-6 p-2 rounded-full border dark:bg-[#1c1e20] dark:border-white/5 dark:text-[#00e5c4] bg-white border-slate-200 text-[#00e5c4] hover:opacity-80 transition-all shadow-sm">
                         {isDarkMode ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.58 1.58m12.42 12.42l1.58 1.58M3 12h2.25m13.5 0H21M4.22 19.78l1.58-1.58M17.78 4.22l-1.58 1.58M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" /></svg>
@@ -197,7 +192,7 @@
                         )}
                     </button>
 
-                    {/* Logo Top Anchor Header */}
+                    {/* Branding Header */}
                     <header className="pt-4 flex items-center space-x-2">
                         <svg width="22" height="22" viewBox="0 0 26 26" fill="none">
                             <path d="M13 9.5 C15.5 9.5 17 11 17 13 C17 15.5 15 17.2 13 17 C10.8 16.8 9 15.2 9 13 C9 10.8 10.5 9.5 13 9.5Z" fill="#00e5c4"/>
@@ -211,7 +206,7 @@
                         </span>
                     </header>
 
-                    {/* Core Layout Story Stream */}
+                    {/* Main Flow Stream */}
                     <main className="my-auto space-y-14 py-10">
                         
                         {/* Section 1: Hero Titles */}
@@ -225,7 +220,7 @@
                             </p>
                         </div>
 
-                        {/* Section 2: Full Detailed Blueprint Text Narrative */}
+                        {/* Section 2: Manifesto Text */}
                         <div className="space-y-6">
                             <div className="space-y-0.5">
                                 <h3 className="text-[11px] font-bold tracking-widest uppercase text-[#00e5c4]">The Community</h3>
@@ -250,7 +245,7 @@
                             </ul>
                         </div>
 
-                        {/* Section 3: Interactive Role Selection */}
+                        {/* Section 3: Spaces Selection */}
                         <div className="space-y-5">
                             <h2 className="text-2xl font-serif-normal dark:text-slate-100 text-slate-900">Select your spaces</h2>
                             <div className="grid grid-cols-1 gap-2.5">
@@ -277,11 +272,12 @@
                             </div>
                         </div>
 
-                        {/* Section 4: PLACED AFTER EVERYTHING ELSE — Sign In / Sign Up Shadow Access Node Container */}
-                        <div className="dark:bg-[#1c1e20] bg-white border dark:border-white/5 border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+                        {/* Section 4: COMBINED SIGN IN / SIGN UP AUTHENTICATION SYSTEM BOX */}
+                        <div id="auth-box-anchor" className="dark:bg-[#1c1e20] bg-white border dark:border-white/5 border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
                             <div className="flex justify-between items-center border-b dark:border-white/5 border-slate-100 pb-3">
                                 <div className="flex gap-4">
                                     <button 
+                                        type="button"
                                         onClick={() => setAuthMode("signin")}
                                         className={`text-sm font-bold pb-1 transition-colors relative ${authMode === "signin" ? 'text-[#00e5c4]' : 'dark:text-slate-500 text-slate-400'}`}
                                     >
@@ -289,6 +285,7 @@
                                         {authMode === "signin" && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#00e5c4]"></span>}
                                     </button>
                                     <button 
+                                        type="button"
                                         onClick={() => setAuthMode("signup")}
                                         className={`text-sm font-bold pb-1 transition-colors relative ${authMode === "signup" ? 'text-[#00e5c4]' : 'dark:text-slate-500 text-slate-400'}`}
                                     >
@@ -296,7 +293,7 @@
                                         {authMode === "signup" && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#00e5c4]"></span>}
                                     </button>
                                 </div>
-                                <span className="text-[10px] font-mono uppercase dark:text-slate-600 text-slate-400">Secure Node</span>
+                                <span className="text-[10px] font-mono uppercase dark:text-slate-600 text-slate-400">Secure Protocol</span>
                             </div>
 
                             <form onSubmit={handleShadowAuth} className="space-y-3">
